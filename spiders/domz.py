@@ -11,9 +11,16 @@ class CrawlSpider(scrapy.Spider):
         #print response
         items = []
         item=StoreNameItem()
-        length = len(response.xpath("//*[@id='house-lst']/li[1]/div[2]/h2/a/@href"))
+        #length = len(response.xpath("//*[@id='house-lst']/li[1]/div[2]/h2/a/@href"))
+        length = len(response.xpath("//*[contains(@class,'row1-text')]/text()"))
         print length
-        name=response.xpath("//*[@id='house-lst']/li[1]/div[2]/h2/a/@href")[0].extract()
+
+        name=response.xpath("//*[contains(@class,'row1-text')]/text()")[1].extract()
+        comname=response.xpath("//*[contains(@class,'total-price')]/text()")[0].extract()
+        type=response.xpath("//*[contains(@class,'row2-text')]/a[@class='laisuzhou']/@href")[0].extract()
+        area=response.xpath("//*[@class='prop-title']/a/@href")[0].extract()
+
+        '''name=response.xpath("//*[@id='house-lst']/li[1]/div[2]/h2/a/@href")[0].extract()
         comname=response.xpath('//*[@id="house-lst"]//*[@class="nameEllipsis"]/text()')[0].extract()
         type=response.xpath('//*[@id="house-lst"]//*[@class="nameEllipsis"]/../following-sibling::*[1]/text()')[0].extract()
         area=response.xpath('//*[@id="house-lst"]//*[@class="nameEllipsis"]/../following-sibling::*[2]/text()')[0].extract()
@@ -29,9 +36,16 @@ class CrawlSpider(scrapy.Spider):
         item["price"]=price
         item["num"]=num
         item["fangurl"]=fangurl
-        item["comurl"]=comurl
+        item["comurl"]=comurl'''
+        item["name"]=name
+        item["comname"]=comname
+        item["type"]=type
+        item["area"]=area
         #//*[contains(@class,'row1-text')]/text()
         #//*[contains(@class,'total-price')]/text()
+        #//*[contains(@class,'row2-text')]/a[@class='laisuzhou']/@href
+        #//*[@class='prop-title']/a/@href
+        #
         #//*[@id="js-ershoufangList"]/div[2]/div[3]/div/ul/li[1]/div/div[1]/a
         #0 type
         #1 area
