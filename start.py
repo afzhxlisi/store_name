@@ -1,4 +1,5 @@
 #!/usr/bin/python
 
 from scrapy.cmdline import execute
-execute()
+from scrapy import cmdline
+execute("scrapy crawl domz".split())

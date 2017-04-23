@@ -19,4 +19,7 @@ class StoreNameItem(scrapy.Item):
     num = scrapy.Field()
     fangurl = scrapy.Field()
     comurl = scrapy.Field()
+    totalNum = scrapy.Field()
+    lastThreeMonSales = scrapy.Field()
+    totalWatchNum = scrapy.Field()
     pass
