@@ -6,7 +6,8 @@ from scrapy.http import Request
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
-
+import os
+import datetime
 class CrawlSpider(scrapy.Spider):
     name = "domz"
     allowed_domains = ["sh.lianjia.com"]
