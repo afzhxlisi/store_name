@@ -31,6 +31,14 @@ class CrawlSpider(scrapy.Spider):
             lastThreeMonSales = nums[1].extract()
             totalWatchNum = nums[2].extract()
             print totalNum
+            #print totalNum
+            typename=response.xpath("//*[@class='m-side-bar']/div/span[@class='header-text']/text()")[0].extract()
+            numType=response.xpath("//*[@class='m-side-bar']/div/span[contains(@class,'c-hollow-tag')]/text()")[0].extract()
+            item["totalNum"]=totalNum
+            item["lastThreeMonSales"]=lastThreeMonSales
+            item["totalWatchNum"]=totalWatchNum
+            item["typename"]=typename
+            item["numType"]=numType
         nameorgs = response.xpath("//*[contains(@class,'row1-text')]/text()")
         prices = response.xpath("//*[contains(@class,'total-price')]/text()")
         comurls = response.xpath("//*[contains(@class,'row2-text')]/a[@class='laisuzhou']/@href")
