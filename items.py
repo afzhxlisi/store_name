@@ -22,4 +22,6 @@ class StoreNameItem(scrapy.Item):
     totalNum = scrapy.Field()
     lastThreeMonSales = scrapy.Field()
     totalWatchNum = scrapy.Field()
+    typename=scrapy.Field()
+    numType=scrapy.Field()
     pass

@@ -6,8 +6,7 @@ from scrapy.http import Request
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
-import os
-import datetime
+
 class CrawlSpider(scrapy.Spider):
     name = "domz"
     allowed_domains = ["sh.lianjia.com"]
@@ -16,12 +15,12 @@ class CrawlSpider(scrapy.Spider):
     count =1;
     total = 1;
     def parse(self, response):
-
         length = len(response.xpath("//*[contains(@class,'total-price')]/text()"))
         print length
         items = []
         item = StoreNameItem()
         nums=[]
+
         if(length==0):
             return
         if(self.page==1):
@@ -34,17 +33,14 @@ class CrawlSpider(scrapy.Spider):
             #print totalNum
             typename=response.xpath("//*[@class='m-side-bar']/div/span[@class='header-text']/text()")[0].extract()
             numType=response.xpath("//*[@class='m-side-bar']/div/span[contains(@class,'c-hollow-tag')]/text()")[0].extract()
-            item["totalNum"]=totalNum
-            item["lastThreeMonSales"]=lastThreeMonSales
-            item["totalWatchNum"]=totalWatchNum
-            item["typename"]=typename
-            item["numType"]=numType
+
+            #yield item
+            #print item
         nameorgs = response.xpath("//*[contains(@class,'row1-text')]/text()")
         prices = response.xpath("//*[contains(@class,'total-price')]/text()")
         comurls = response.xpath("//*[contains(@class,'row2-text')]/a[@class='laisuzhou']/@href")
         fangurls = response.xpath("//*[@class='prop-title']/a/@href")
         comnames = response.xpath("//*[contains(@class,'row2-text')]/a[@class='laisuzhou']/span/text()")
-
 
         for i in range(0, length - 1):
             nameorg=nameorgs[2 * i + 1].extract()
@@ -69,9 +65,10 @@ class CrawlSpider(scrapy.Spider):
                 item["totalNum"] = totalNum
                 item["lastThreeMonSales"] = lastThreeMonSales
                 item["totalWatchNum"] = totalWatchNum
+                item["typename"] = typename
+                item["numType"] = numType
             self.count = self.count + 1
             yield item
-
 
         self.page = self.page + 1
         url = "http://sh.lianjia.com/ershoufang/d" + str(self.page)

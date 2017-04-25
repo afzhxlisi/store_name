@@ -11,12 +11,16 @@ import datetime
 class StoreNamePipeline(object):
     def __init__(self):
         self.file = codecs.open('tencent'+datetime.date.today().__str__()+'.json', 'a', encoding='utf-8')
+        self.numfile = codecs.open('num'+datetime.date.today().__str__()+'.json', 'a', encoding='utf-8')
     def process_item(self, item, spider):
         line = json.dumps(dict(item), ensure_ascii=False) + "\n"
         self.file.write(line)
+        if(item.get('totalNum')!=None):
+            self.numfile.write(line)
         return item
     def spider_closed(self,spider):
         self.file.close()
+        self.numfile.close()
 
 class StoreDbPipeline(object):
 
@@ -30,49 +34,11 @@ class StoreDbPipeline(object):
             cur.execute('select ifnull(max(id),0) id from lianjia')
             result=cur.fetchone()
             idN = result[0]+1
-            #length = len(item['userId'])
-            #print length
-            #print idlength
-            #print len(item['content'])
-            values=[]
-            #insertStr =''
-            #contentIndex =0
-            values.append((idN + 1, item['name'], item['comname'],item['type'],item['area'],item['price'],item['fangurl'],item['comurl']))
-            #for i in range(length):
-                #o = str(i)+'_'+str(contentIndex)
-                #print i
-                #print contentIndex
-                #while(item['content'][contentIndex].isspace()):
-                    #contentIndex=contentIndex+1
-                #print str(i)+str(contentIndex)
-                #values.append((idN+i,item['userId'][i],item['content'][contentIndex]))
-                #print item['content'][contentIndex]
-                #contentIndex=contentIndex+1
-                #values.append((idN + i, item['name'][i], item['content'][contentIndex]))
-                #print idN+i
-                #print item['userId']
-                #print item['content']
-                #values.append(item['userId'][i])
-                #values.append(item['level'][i])
-                #values.append(item['content'][i].encode("utf-8") )
-                #contentStr = item['content'][i]
-                #print contentStr
-                #values.append(contentStr)
-                #values.append(.decode('unicode_escape'))
 
-                #insertStr+='(%s,%s,%s),'
-            #insertStr = insertStr[0:len(insertStr)-1]
-            #values.append((1,'糯米','糯米'))
-            #print insertStr
-            #print values
-            #insertVal = [];
-            #insertVal.append(('1','1','1'))
-            #insertVal.append(values[0])
-            #insertVal.append(values[1])
-            #insertVal.append(values[2])
-            #insertVal.append(values[3])
-            #cur.executemany('insert into test values'+insertStr,values)
-            #print values
+            values=[]
+
+            values.append((idN + 1, item['name'], item['comname'],item['type'],item['area'],item['price'],item['fangurl'],item['comurl']))
+
             cur.execute('insert into lianjia(id,name,comname,type,area,price,fangurl,comurl,time) values  (%s,%s,%s,%s,%s,%s,%s,%s,now())',values[0])
             self.conn.commit()
 
@@ -80,7 +46,6 @@ class StoreDbPipeline(object):
 
         except MySQLdb.Error,e:
             print "Mysql Error %d: %s" % (e.args[0], e.args[1])
-            #MySQLdb.connect("")
     def spider_closed(self,spider):
         self.cur.close()
         self.conn.close()
