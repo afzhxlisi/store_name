@@ -27,12 +27,12 @@ class CrawlSpider(scrapy.Spider):
             nums=response.xpath("//ul[@class='content']//span[contains(@class,'num')]/text()")
             totalNum = nums[0].extract()
             self.total = totalNum
-            lastThreeMonSales = nums[1].extract()
-            totalWatchNum = nums[2].extract()
+            #lastThreeMonSales = nums[1].extract()
+            #totalWatchNum = nums[2].extract()
             print totalNum
             #print totalNum
-            typename=response.xpath("//*[@class='m-side-bar']/div/span[@class='header-text']/text()")[0].extract()
-            numType=response.xpath("//*[@class='m-side-bar']/div/span[contains(@class,'c-hollow-tag')]/text()")[0].extract()
+            #typename=response.xpath("//*[@class='m-side-bar']/div/span[@class='header-text']/text()")[0].extract()
+            #numType=response.xpath("//*[@class='m-side-bar']/div/span[contains(@class,'c-hollow-tag')]/text()")[0].extract()
 
             #yield item
             #print item
@@ -61,12 +61,12 @@ class CrawlSpider(scrapy.Spider):
             item["fangurl"] = fangurl
             item["comurl"] = comurl
             item["comname"] = comname
-            if(self.page==1 and i==0):
-                item["totalNum"] = totalNum
-                item["lastThreeMonSales"] = lastThreeMonSales
-                item["totalWatchNum"] = totalWatchNum
-                item["typename"] = typename
-                item["numType"] = numType
+            #if(self.page==1 and i==0):
+                #item["totalNum"] = totalNum
+                #item["lastThreeMonSales"] = lastThreeMonSales
+                #item["totalWatchNum"] = totalWatchNum
+                #item["typename"] = typename
+                #item["numType"] = numType
             self.count = self.count + 1
             yield item
 

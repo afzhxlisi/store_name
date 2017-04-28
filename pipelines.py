@@ -11,16 +11,16 @@ import datetime
 class StoreNamePipeline(object):
     def __init__(self):
         self.file = codecs.open('tencent'+datetime.date.today().__str__()+'.json', 'a', encoding='utf-8')
-        self.numfile = codecs.open('num'+datetime.date.today().__str__()+'.json', 'a', encoding='utf-8')
+        #self.numfile = codecs.open('num'+datetime.date.today().__str__()+'.json', 'a', encoding='utf-8')
     def process_item(self, item, spider):
         line = json.dumps(dict(item), ensure_ascii=False) + "\n"
         self.file.write(line)
-        if(item.get('totalNum')!=None):
-            self.numfile.write(line)
+        #if(item.get('totalNum')!=None):
+            #self.numfile.write(line)
         return item
     def spider_closed(self,spider):
         self.file.close()
-        self.numfile.close()
+        #self.numfile.close()
 
 class StoreDbPipeline(object):
 
